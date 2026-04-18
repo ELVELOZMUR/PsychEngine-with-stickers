@@ -1,0 +1,12 @@
+$0.01
+%0.5
+&8
+!keyClick
+blueone
+greenone
+pinkone
+#tutorial darkone
+eyeone
+whiteone
+purpleone
+redone
