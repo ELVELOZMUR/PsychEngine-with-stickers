@@ -24,6 +24,9 @@ class StickerTransition extends MusicBeatSubstate
 	static var soundPrefix:String = "keyClick";
 	static var range:Int = 8;
 
+	//In case it is reset
+	public var imagePaths:Array<String> = [];
+
 	public function new(isTransIs)
 	{
 		super();
@@ -44,6 +47,7 @@ class StickerTransition extends MusicBeatSubstate
 		if (isTransIn)
 		{
 			olds = [];
+			imagePaths = images.copy();
 			checkSongs();
 			regenStickers();
 		}
@@ -72,14 +76,17 @@ class StickerTransition extends MusicBeatSubstate
 
 				if (!Math.isNaN(score) && score != null && score != 0 && score > 1000)
 				{
-					images.push(beat.image);
-					Paths.excludeAsset(beat.image);
-					var bitmap = BitmapData.fromFile('assets/shared/images/${beat.image}.png');
-					if (bitmap != null)
-						Paths.cacheBitmap(beat.image, "shared", bitmap);
-
-					remove.push(beat);
-					trace('Song beaten: ${beat.song}');
+					imagePaths.push(beat.image);
+					if (!Paths.dumpExclusions.contains(beat.image))
+					{
+						Paths.dumpExclusions.push(beat.image);
+						var bitmap = BitmapData.fromFile('assets/shared/images/${beat.image}.png');
+						if (bitmap != null)
+							Paths.cacheBitmap(beat.image, "shared", bitmap);
+	
+						remove.push(beat);
+						trace('Song beaten: ${beat.song}');
+					}
 				}
 			}
 		}
@@ -166,13 +173,13 @@ class StickerTransition extends MusicBeatSubstate
 		{
 			i++;
 			var sticker = new FlxSprite();
-			if (images.length == 0)
+			if (imagePaths.length == 0)
 			{
 				sticker.makeGraphic(200, 200, FlxColor.RED);
 			}
 			else
 			{
-				var imagePath = FlxG.random.getObject(images);
+				var imagePath = FlxG.random.getObject(imagePaths);
 				sticker.loadGraphic(imagePath, true, 1024, 1024);
 				sticker.frame = FlxG.random.getObject(sticker.frames.frames);
 				sticker.scale.set(stickerScale, stickerScale);
