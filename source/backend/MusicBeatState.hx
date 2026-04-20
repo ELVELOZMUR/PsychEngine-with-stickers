@@ -43,7 +43,9 @@ class MusicBeatState extends FlxState
 		if (!skip)
 		{
 			if (!stickerTrans)
+			{
 				openSubState(new CustomFadeTransition(0.5, true));
+			}
 			else
 			{
 				openSubState(new StickerTransition(false));

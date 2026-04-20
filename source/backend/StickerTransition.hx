@@ -59,14 +59,18 @@ class StickerTransition extends MusicBeatSubstate
 
 		for (beat in toBeat)
 		{
+			trace('Checking song: ${beat.song}');
 			for (i in 0...Difficulty.list.length)
 			{
 				var song = Highscore.formatSong(beat.song, i);
 				var index = song.indexOf("-");
 				song = song.substring(0, index) + song.substr(index + 1);
+				trace('Path: $song');
 				var score = Highscore.songScores.get(song);
 
-				if (!Math.isNaN(score) && score != 0)
+				trace('Score: $score');
+
+				if (!Math.isNaN(score) && score != null && score != 0 && score > 1000)
 				{
 					images.push(beat.image);
 					Paths.excludeAsset(beat.image);
@@ -218,7 +222,7 @@ class StickerTransition extends MusicBeatSubstate
 
 			new FlxTimer().start(div * 2, function(_)
 			{
-				FlxG.signals.postStateSwitch.add(function()
+				FlxG.signals.postStateSwitch.addOnce(function()
 				{
 					@:privateAccess
 					var state = FlxG.game._state;
