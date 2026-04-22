@@ -84,7 +84,6 @@ class StickerTransition extends MusicBeatSubstate
 						if (bitmap != null)
 							Paths.cacheBitmap(beat.image, "shared", bitmap);
 	
-						remove.push(beat);
 						trace('Song beaten: ${beat.song}');
 					}
 				}
