@@ -66,9 +66,8 @@ class StickerTransition extends MusicBeatSubstate
 			trace('Checking song: ${beat.song}');
 			for (i in 0...Difficulty.list.length)
 			{
-				var song = Highscore.formatSong(beat.song, i);
-				var index = song.indexOf("-");
-				song = song.substring(0, index) + song.substr(index + 1);
+				var song = Paths.formatToSongPath(beat.song);
+				song = song.substring(0, song.length - 1) + Difficulty.getFilePath(i);
 				trace('Path: $song');
 				var score = Highscore.songScores.get(song);
 
@@ -287,8 +286,9 @@ class StickerTransition extends MusicBeatSubstate
 			_parentState.persistentUpdate = oldUpd;
 			olds = [];
 			close();
-			MusicBeatState.stickerTrans = false;
 		});
+		
+		MusicBeatState.stickerTrans = false;
 	}
 
 	override function close()
