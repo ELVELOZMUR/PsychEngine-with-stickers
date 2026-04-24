@@ -316,7 +316,7 @@ class Paths
 				return true;
 		}
 		#end
-		return (OpenFlAssets.exists(getPath(key, type, parentFolder, false)));
+		return (OpenFlAssets.exists(getPath(key, type, parentFolder, false), type));
 	}
 
 	static public function getAtlas(key:String, ?parentFolder:String = null, ?allowGPU:Bool = true):FlxAtlasFrames
